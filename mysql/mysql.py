@@ -1,7 +1,7 @@
 #!/usr/bin/python
 # -*- coding: UTF-8 -*-
 
-
+# 安装 mysql数据库依赖库命令
 #pip3 install PyMySQL
  
 import pymysql
@@ -30,44 +30,44 @@ data = cursor.fetchone()
 print ("Database version : %s " % data)
  
 # 关闭数据库连接
-#db.close()
+db.close()
 
 # 创建表
 
 # 使用 execute() 方法执行 SQL，如果表存在则删除
-cursor.execute("DROP TABLE IF EXISTS EMPLOYEE")
- 
-# 使用预处理语句创建表
-sql = """CREATE TABLE `EMPLOYEE` (
-         `FIRST_NAME`  CHAR(20) NOT NULL,
-         `LAST_NAME`  CHAR(20),
-         `AGE` INT,  
-         `SEX` CHAR(1),
-         `INCOME` FLOAT )"""
- 
-cursor.execute(sql)
- 
-# 关闭数据库连接
+#cursor.execute("DROP TABLE IF EXISTS EMPLOYEE")
+# 
+## 使用预处理语句创建表
+#sql = """CREATE TABLE `EMPLOYEE` (
+#         `FIRST_NAME`  CHAR(20) NOT NULL,
+#         `LAST_NAME`  CHAR(20),
+#         `AGE` INT,  
+#         `SEX` CHAR(1),
+#         `INCOME` FLOAT )"""
+# 
+#cursor.execute(sql)
+# 
+## 关闭数据库连接
+##db.close()
+#
+#
+## insert
+#
+## SQL 插入语句
+#sql = """INSERT INTO `EMPLOYEE`(`FIRST_NAME`,
+#         `LAST_NAME`, `AGE`, `SEX`, `INCOME`)
+#         VALUES ('Mac', 'Mohan', 20, 'M', 2000)"""
+#try:
+#   # 执行sql语句
+#   cursor.execute(sql)
+#   # 提交到数据库执行
+#   db.commit()
+#except:
+#   # 如果发生错误则回滚
+#   db.rollback()
+# 
+## 关闭数据库连接
 #db.close()
-
-
-# insert
-
-# SQL 插入语句
-sql = """INSERT INTO `EMPLOYEE`(`FIRST_NAME`,
-         `LAST_NAME`, `AGE`, `SEX`, `INCOME`)
-         VALUES ('Mac', 'Mohan', 20, 'M', 2000)"""
-try:
-   # 执行sql语句
-   cursor.execute(sql)
-   # 提交到数据库执行
-   db.commit()
-except:
-   # 如果发生错误则回滚
-   db.rollback()
- 
-# 关闭数据库连接
-db.close()
 
 # 插入数据
 #sql = "INSERT INTO trade (name, account, saving) VALUES ( '%s', '%s', %.2f )"
