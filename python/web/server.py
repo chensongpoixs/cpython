@@ -61,3 +61,5 @@ if __name__=="__main__":         #如果直接运行本文件，那么__name__�
         handle_client_process=Process(target=handle_client,args=(c,))   #ALT+ENTER快捷键生成函数
         handle_client_process.start()
         c.close()
+	
+	

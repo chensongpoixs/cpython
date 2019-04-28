@@ -2,14 +2,118 @@
 # -*- coding: UTF-8 -*-
 
 
-# down --> °²×°MySQLdb£¬Çë·ÃÎÊ http://sourceforge.net/projects/mysql-python £¬(LinuxÆ½Ì¨¿ÉÒÔ·ÃÎÊ£ºhttps://pypi.python.org/pypi/MySQL-python)´ÓÕâÀï¿ÉÑ¡ÔñÊÊºÏÄúµÄÆ½Ì¨µÄ°²×°°ü£¬·ÖÎªÔ¤±àÒëµÄ¶ş½øÖÆÎÄ¼şºÍÔ´´úÂë°²×°°ü¡£
+#pip3 install PyMySQL
+ 
+import pymysql
+ 
+#import pymysql.cursors
+# æ‰“å¼€æ•°æ®åº“è¿æ¥
+db = pymysql.connect(host='localhost',
+    port=3306,
+    user='root',
+    passwd='',
+    db='chensong',
+    charset='utf8'
+)
+ 
+# ä½¿ç”¨ cursor() æ–¹æ³•åˆ›å»ºä¸€ä¸ªæ¸¸æ ‡å¯¹è±¡ cursor
+# è·å–æ¸¸æ ‡
+#cursor = connect.cursor()
+cursor = db.cursor()
 
-#Èç¹ûÄúÑ¡Ôñ¶ş½øÖÆÎÄ¼ş·¢ĞĞ°æ±¾µÄ»°£¬°²×°¹ı³Ì»ù±¾°²×°ÌáÊ¾¼´¿ÉÍê³É¡£Èç¹û´ÓÔ´´úÂë½øĞĞ°²×°µÄ»°£¬ÔòĞèÒªÇĞ»»µ½MySQLdb·¢ĞĞ°æ±¾µÄ¶¥¼¶Ä¿Â¼£¬²¢¼üÈëÏÂÁĞÃüÁî:
+# ä½¿ç”¨ execute()  æ–¹æ³•æ‰§è¡Œ SQL æŸ¥è¯¢ 
+cursor.execute("SELECT VERSION()")
+ 
+# ä½¿ç”¨ fetchone() æ–¹æ³•è·å–å•æ¡æ•°æ®.
+data = cursor.fetchone()
+ 
+print ("Database version : %s " % data)
+ 
+# å…³é—­æ•°æ®åº“è¿æ¥
+#db.close()
+
+# åˆ›å»ºè¡¨
+
+# ä½¿ç”¨ execute() æ–¹æ³•æ‰§è¡Œ SQLï¼Œå¦‚æœè¡¨å­˜åœ¨åˆ™åˆ é™¤
+cursor.execute("DROP TABLE IF EXISTS EMPLOYEE")
+ 
+# ä½¿ç”¨é¢„å¤„ç†è¯­å¥åˆ›å»ºè¡¨
+sql = """CREATE TABLE `EMPLOYEE` (
+         `FIRST_NAME`  CHAR(20) NOT NULL,
+         `LAST_NAME`  CHAR(20),
+         `AGE` INT,  
+         `SEX` CHAR(1),
+         `INCOME` FLOAT )"""
+ 
+cursor.execute(sql)
+ 
+# å…³é—­æ•°æ®åº“è¿æ¥
+#db.close()
+
+
+# insert
+
+# SQL æ’å…¥è¯­å¥
+sql = """INSERT INTO `EMPLOYEE`(`FIRST_NAME`,
+         `LAST_NAME`, `AGE`, `SEX`, `INCOME`)
+         VALUES ('Mac', 'Mohan', 20, 'M', 2000)"""
+try:
+   # æ‰§è¡Œsqlè¯­å¥
+   cursor.execute(sql)
+   # æäº¤åˆ°æ•°æ®åº“æ‰§è¡Œ
+   db.commit()
+except:
+   # å¦‚æœå‘ç”Ÿé”™è¯¯åˆ™å›æ»š
+   db.rollback()
+ 
+# å…³é—­æ•°æ®åº“è¿æ¥
+db.close()
+
+# æ’å…¥æ•°æ®
+#sql = "INSERT INTO trade (name, account, saving) VALUES ( '%s', '%s', %.2f )"
+#data = ('é›·å†›', '13512345678', 10000)
+#cursor.execute(sql % data)
+#connect.commit()
+#print('æˆåŠŸæ’å…¥', cursor.rowcount, 'æ¡æ•°æ®')
 #
-#$ gunzip MySQL-python-1.2.2.tar.gz
-#$ tar -xvf MySQL-python-1.2.2.tar
-#$ cd MySQL-python-1.2.2
-#$ python setup.py build
-#$ python setup.py install
-
-import MySQLdb
+## ä¿®æ”¹æ•°æ®
+#sql = "UPDATE trade SET saving = %.2f WHERE account = '%s' "
+#data = (8888, '13512345678')
+#cursor.execute(sql % data)
+#connect.commit()
+#print('æˆåŠŸä¿®æ”¹', cursor.rowcount, 'æ¡æ•°æ®')
+#
+## æŸ¥è¯¢æ•°æ®
+#sql = "SELECT name,saving FROM trade WHERE account = '%s' "
+#data = ('13512345678',)
+#cursor.execute(sql % data)
+#for row in cursor.fetchall():
+#    print("Name:%s\tSaving:%.2f" % row)
+#print('å…±æŸ¥æ‰¾å‡º', cursor.rowcount, 'æ¡æ•°æ®')
+#
+## åˆ é™¤æ•°æ®
+#sql = "DELETE FROM trade WHERE account = '%s' LIMIT %d"
+#data = ('13512345678', 1)
+#cursor.execute(sql % data)
+#connect.commit()
+#print('æˆåŠŸåˆ é™¤', cursor.rowcount, 'æ¡æ•°æ®')
+#
+## äº‹åŠ¡å¤„ç†
+#sql_1 = "UPDATE trade SET saving = saving + 1000 WHERE account = '18012345678' "
+#sql_2 = "UPDATE trade SET expend = expend + 1000 WHERE account = '18012345678' "
+#sql_3 = "UPDATE trade SET income = income + 2000 WHERE account = '18012345678' "
+#
+#try:
+#    cursor.execute(sql_1)  # å‚¨è“„å¢åŠ 1000
+#    cursor.execute(sql_2)  # æ”¯å‡ºå¢åŠ 1000
+#    cursor.execute(sql_3)  # æ”¶å…¥å¢åŠ 2000
+#except Exception as e:
+#    connect.rollback()  # äº‹åŠ¡å›æ»š
+#    print('äº‹åŠ¡å¤„ç†å¤±è´¥', e)
+#else:
+#    connect.commit()  # äº‹åŠ¡æäº¤
+#    print('äº‹åŠ¡å¤„ç†æˆåŠŸ', cursor.rowcount)
+#
+## å…³é—­è¿æ¥
+#cursor.close()
+#connect.close()
