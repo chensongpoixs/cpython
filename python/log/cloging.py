@@ -39,9 +39,9 @@ class Logger:
     def info(self,message):
         self.logger.info(message)
 
-    def war(self,message,color=FOREGROUND_YELLOW):
+    def warning(self,message,color=FOREGROUND_YELLOW):
         set_color(color)
-        self.logger.warn(message)
+        self.logger.warning(message)
         set_color(FOREGROUND_WHITE)
 
     def error(self,message,color=FOREGROUND_RED):
@@ -52,10 +52,10 @@ class Logger:
     def cri(self,message):
         self.logger.critical(message)
 
-if __name__ =='__main__':
-    logyyx = Logger('debug.log',logging.WARNING,logging.DEBUG)
-    logyyx.debug('一个debug信息')
-    logyyx.info('一个info信息')
-    logyyx.war('一个warning信息')
-    logyyx.error('一个error信息')
-    logyyx.cri('一个致命critical信息')
+#if __name__ =='__main__':
+#    logyyx = Logger('debug.log')
+#    logyyx.debug('一个debug信息')
+#    logyyx.info('一个info信息')
+#    logyyx.warning('一个warning信息')
+#    logyyx.error('一个error信息')
+#    logyyx.cri('一个致命critical信息')
