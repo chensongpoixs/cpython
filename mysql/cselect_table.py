@@ -5,7 +5,7 @@
 #pip3 install PyMySQL
  
 import pymysql
-
+import time
 #import cloging
 
 # 打开数据库连接
@@ -16,15 +16,24 @@ db = pymysql.connect(host='localhost', port=3306, user='root',  passwd='', db='c
 # 使用 cursor() 方法创建一个游标对象 cursor
 # 获取游标
 cursor = db.cursor()
-
-
-# 查询数据
-sql = "SELECT `first_name`, `last_name`, `sex` FROM `t_test_case_python` WHERE `first_name` = '%s' ;"
-data = ('chen')
-cursor.execute(sql % data)
+sql = "SELECT `first_name`, `last_name`, `sex` FROM `t_test_case_python` ;"
+#data = ('chen')
+start_time = time.time()
+cursor.execute(sql )
 for row in cursor.fetchall():
-    print("first_name:%s\last_name:%s\sex:%c" % row)
+    print("first_name:%s last_name:%s sex:%c" % row)
+	#print('chensong')
+end_time = time.time()
+print("time:", end_time - start_time)
 print('共查找出', cursor.rowcount, '条数据')
+
+# 查询数据 where 
+#sql = "SELECT `first_name`, `last_name`, `sex` FROM `t_test_case_python` WHERE `first_name` = '%s' ;"
+#data = ('chen')
+#cursor.execute(sql % data)
+#for row in cursor.fetchall():
+#    print("first_name:%s\last_name:%s\sex:%c" % row)
+#print('共查找出', cursor.rowcount, '条数据')
 
 
 # 关闭数据库连接
