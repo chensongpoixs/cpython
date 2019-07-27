@@ -64,7 +64,8 @@ cursor.execute("DROP TABLE IF EXISTS `t_test_case_python`;")
 sql = """CREATE TABLE `t_test_case_python` (
          `first_name`  CHAR(20) NOT NULL COMMENT '姓',
          `last_name`  CHAR(20) COMMENT '名',
-         `sex` CHAR(1) COMMENT '年龄' );"""
+         `sex` CHAR(1) COMMENT '年龄' ,
+         `income` FLOAT COMMENT 'income');"""
 
 cursor.execute(sql)
 
