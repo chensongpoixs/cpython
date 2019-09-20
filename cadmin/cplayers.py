@@ -7,99 +7,144 @@
 import pymysql
 import sys
 
-#import pymysql.cursors
-# 打开数据库连接
-db = pymysql.connect(host='localhost',
-    port=3306,
-    user='root',
-    passwd='',
-    db='global_log',
-    charset='utf8'
-)
- 
-# 使用 cursor() 方法创建一个游标对象 cursor
-# 获取游标
-#cursor = connect.cursor()
-cursor = db.cursor()
+# 检查玩家加入和退出次数是否相等
+def check_player_num():
+	# 打开数据库连接
+	#try:
+	db = pymysql.connect(host='localhost',
+	port=3306,
+	user='root',
+	passwd='',
+	db='global_log',
+	charset='utf8'
+	)
 
-# 所有玩家加入和退出数量 sql 
-players_sign_up_sql = "SELECT count(*) from `t_player_sign_up_table`;"
-players_sign_out_sql = "SELECT count(*) from `t_player_sign_out_table`;"
-
-
-# 查询加入数量
-cursor.execute(players_sign_up_sql)
-players_sign_up =  cursor.fetchone()
-
-cursor.execute(players_sign_out_sql)
-players_sign_out =  cursor.fetchone()
+	cursor = db.cursor()
+	#except pymysql.error, e
+	#	print("connect mysql error")
+	#	sys.exit(1)
+	
+	# 所有玩家加入和退出数量 sql 
+	players_sign_up_sql = "SELECT count(*) FROM `t_player_sign_up_table`;"
+	players_sign_out_sql = "SELECT count(*) FROM `t_player_sign_out_table`;"
 
 
+	# 查询加入数量
+	cursor.execute(players_sign_up_sql)
+	players_sign_up =  cursor.fetchone()
 
-
-
-print("players sign up = %s " % players_sign_up)
-print("players sign out = %s " % players_sign_out)
-
-
-
-
-if players_sign_up == players_sign_out :
-	print("==")
-else:
-	print("!=")
-
-
-
-
-
-
-# 查询所有玩家player_id
-all_players_id_sql = "SELECT DISTINCT `player_id` FROM `t_player_sign_up_table`;";
-
-all_player_id_join_tables = "SELECT count(*) from `t_player_sign_up_table` where `player_id` = '%s'";
-all_player_id_out_tables = "SELECT count(*) from `t_player_sign_out_table` where `player_id` = '%s'";
-
-all_players_ids = []
-cursor.execute(all_players_id_sql)
-results = cursor.fetchall()
-
-for row in results:
-#	row_list = []
-#	for column in row:
-#		row_list.append(column.replace('\t', '').replace('\n', '').replace('\r', ''))
-	all_players_ids.append(row[0])
-	#players = row[0]
-	#all_players_ids.append(players)
-#for row in cursor.fetchall():
-	# 找出那些玩家没有退出比赛的
- #   print("player_id:%s" % row)
-		
-print('find all players = ', cursor.rowcount)
-
-print("--------------------------------------")
-print(all_players_ids)
-print("--------------------------------------")
-
-
-
-
-# 查询玩家的加入和退出是相等
-for player_id_ in all_players_ids:
-#	print("player_id_ = %s" % player_id_)
-	cursor.execute(all_player_id_join_tables % player_id_)
-	player_num = cursor.fetchone()
-	cursor.execute(all_player_id_out_tables % player_id_)
-	if player_num == cursor.fetchone() :
-		print("player_id = %s ok " % player_id_)
+	cursor.execute(players_sign_out_sql)
+	players_sign_out =  cursor.fetchone()
+	print("players sign up = %s " % players_sign_up)
+	print("players sign out = %s " % players_sign_out)
+	if players_sign_up == players_sign_out :
+		print("==")
+		cursor.close()
+		db.close()
+		return 0
 	else:
-		print("player_id = %s error " % player_id_)
+		print("!=")
+		cursor.close()
+		db.close()
+		return 1
+	
+
+# 查询出所有玩家
+def get_all_players():
+# 打开数据库连接
+	#try:
+	db = pymysql.connect(host='localhost',
+	port=3306,
+	user='root',
+	passwd='',
+	db='global_log',
+	charset='utf8'
+	)
+
+	cursor = db.cursor()
+	#except pymysql.error, e
+	#	print("connect mysql error")
+	#	sys.exit(1)
+	
+	all_players_id_sql = "SELECT DISTINCT `player_id` FROM `t_player_sign_up_table`;";
+
+
+	# 查询出所有玩家id 
+	all_players_ids = []
+	cursor.execute(all_players_id_sql)
+	results = cursor.fetchall()
+	#
+	for row in results:
+	##	row_list = []
+	##	for column in row:
+	##		row_list.append(column.replace('\t', '').replace('\n', '').replace('\r', ''))
+		all_players_ids.append(row[0])
+	#	#players = row[0]
+	#	#all_players_ids.append(players)
+	##for row in cursor.fetchall():
+	#	# 找出那些玩家没有退出比赛的
+	# #   print("player_id:%s" % row)
+	#		
+	print('find all players = ', cursor.rowcount)
+	cursor.close()
+	db.close()
+	return all_players_ids
 
 
 
+# 检查玩家加入和退出是否正常
+def check_player_join_out(all_players_ids):
+# 打开数据库连接
+	#try:
+	db = pymysql.connect(host='localhost',
+	port=3306,
+	user='root',
+	passwd='',
+	db='global_log',
+	charset='utf8'
+	)
 
-# 关闭数据库连接
-db.close()
+	cursor = db.cursor()
+	#except pymysql.error, e
+	#	print("connect mysql error")
+	#	sys.exit(1)
+	
+	all_player_id_join_tables = "SELECT count(*) from `t_player_sign_up_table` where `player_id` = '%s'";
+	all_player_id_out_tables = "SELECT count(*) from `t_player_sign_out_table` where `player_id` = '%s'";
+
+
+	## 查询玩家的加入和退出是相等
+	for player_id_ in all_players_ids:
+	#	print("player_id_ = %s" % player_id_)
+		cursor.execute(all_player_id_join_tables % player_id_)
+		player_join_num = cursor.fetchone()
+		cursor.execute(all_player_id_out_tables % player_id_)
+		player_out_num = cursor.fetchone()
+		if player_join_num == player_out_num :
+			print("player_id = %s ok " % player_id_)
+			print("player join num = ", player_join_num)
+			print("player out num = ", player_out_num)
+		else:
+			print("player_id = %s error " % player_id_)
+			print("player join num = ", player_join_num)
+			print("player out num = ", player_out_num)
+	
+	cursor.close()
+	db.close()
+
+
+
+# python main 
+if __name__ == '__main__':
+	print("check players data begin !!!!! ")
+	players = check_player_num()
+	print("=== %s " % players)
+	all_players_ids = get_all_players()
+	print(all_players_ids)
+	check_player_join_out(all_players_ids)
+	pass
+
+
 #old_players = players_sign_up - players_sign_out
 #print(" sign up sign out = %s " % old_players)
 #print ("...")
