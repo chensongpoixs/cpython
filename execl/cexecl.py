@@ -32,8 +32,8 @@ def read_execl_write_file(in_file_name, out_file_name):
     fp = open(out_file_name, 'w') # 若是'wb'就表示写二进制文件
 
      #返回book中所有工作表的名字
-    names = data.sheet_names()
-    print("work name = ", names);
+   # names = data.sheet_names()
+    #print("work name = ", names);
     # 获取行数和列数
     nrows = table.nrows
     ncols = table.ncols
@@ -44,12 +44,13 @@ def read_execl_write_file(in_file_name, out_file_name):
             if col != 0:
                 fp.write("\t")
             # 2是数据类型int类型 3是日期类型
-            print("type = ", table.cell_type(row, col), ",data =", table.cell(row, col).value)
+           # print("type = ", table.cell_type(row, col), ",data =", table.cell(row, col).value)
             if table.cell_type(row, col) == 2:
                 fp.write(str(int(table.cell(row, col).value)))
             elif table.cell_type(row, col) == 3:
                #print( xlrd.xldate.xldate_as_datetime(table.cell(1,1).value, 0))
-               fp.write(str(xlrd.xldate.xldate_as_datetime(table.cell(1,1).value, 0)))
+               fp.write(str(xlrd.xldate.xldate_as_datetime(table.cell(row,col).value, 0)))
+				#fp.write(str(table.cell(row, col).value))
             else:
                 fp.write(str(table.cell(row, col).value))
             #fp.write(table.cell_value(row, col).str)
@@ -58,8 +59,8 @@ def read_execl_write_file(in_file_name, out_file_name):
           #      cell = int(cell)  # 浮点转成整型
           #      cell = int(cell)  # 浮点转成整型
     # col_values数据表某一列的值
-    print("col[0]", table.col_values(0))
-    print("row[0] =", table.row_values(0))
+  #  print("col[0]", table.col_values(0))
+   # print("row[0] =", table.row_values(0))
 
     #f.write('Hello, world!')
     fp.flush()
