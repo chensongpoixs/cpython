@@ -14,3 +14,9 @@ pip install xlrd
 pip install pyinstaller
 # 打包 exe文件的命令
 pyinstaller --onefile --nowindowed --icon="computer_three.ico" guess_exe.py
+
+# 报错处理方法 可能是 pyinstaller版本太低了
+pip install https://github.com/pyinstaller/pyinstaller/archive/develop.tar.gz
+python -m pip install --upgrade pip
+
+
