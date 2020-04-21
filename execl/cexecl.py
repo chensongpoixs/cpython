@@ -24,8 +24,8 @@ def read_execl_write_file(in_file_name, out_file_name):
         return -1
 	
     table = data.sheet_by_index(0)
-    fp = open(out_file_name, 'w') # 若是'wb'就表示写二进制文件
-
+    fp = open(out_file_name, 'w', encoding='utf-8-sig') # 若是'wb'就表示写二进制文件
+	
     # 获取行数和列数
     nrows = table.nrows
     ncols = table.ncols
