@@ -5,7 +5,7 @@
 #						author:			chensong
 #
 #						purpose:		execl_tab
-# python真是个奇葩的东西   居然不可以使用Tab键 只能使用回车键   _^_^_^_
+# python真是个奇葩的东西   居然不可以使用Tab键 只能使用回车键   ^_^
 
 import xlrd
 import xlrd as xls

@@ -1,9 +1,20 @@
 ﻿print("=====================redis数据库=====================")
 import redis
-con = redis.Redis(host='192.168.1.2', port=6379, password='cpglive')
-con.set('name', 'Hello world')
-print(con['name'])
-print(con.get('name'))
+from redis.sentinel import Sentinel
+
+#con = redis.Redis(host='192.168.1.2', port=6379, password='cpglive')
+con = redis.Redis(host='127.0.0.1', port=6379)
+for i in range(1, 30):
+   element = 'n' + str(i)
+   con.zadd("zset3", element, i)
+#print(r.zcard("zset1"))
+#print(con.set('nosql','redis'))
+#con.zadd("skiplist_test", 1, 1)
+#con.zadd("zset1", 11, 22)
+#con.zadd("zset2", 'm1', 22, 'm2', 44)
+#con.zset('name', 'Hello world')
+#print(con['name'])
+#print(con.get('name'))
 
 #连接Redis数据库,需要安装Redispy库
 #from redis import Redis
